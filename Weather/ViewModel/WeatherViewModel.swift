@@ -10,13 +10,14 @@ import Foundation
 class WeatherViewModel {
     
     private var apiService = ApiService()
-    private var weathers = [Weather]()
+    private var weathers = [WeatherData]()
     
     func fetchWeathersData(completion: @escaping() -> Void) {
         apiService.getWeatherListData { [weak self] (result) in
             switch result {
             case .success(let lisOf):
-                self?.weathers = lisOf.weathers
+                self?.weathers = [lisOf.self]
+                completion()
             case .failure(let error):
                 print("Error Processing json data: \(error)")
             }
@@ -27,7 +28,7 @@ class WeatherViewModel {
         weathers.count
     }
     
-    func cellForRow(at: IndexPath) -> Weather {
+    func cellForRow(at: IndexPath) -> WeatherData {
         weathers[at.row]
     }
 }

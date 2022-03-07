@@ -11,33 +11,47 @@ class WeatherTableViewCell: UITableViewCell {
     
     static let identifier = "WeatherTableViewCell"
     
-    private var cityLabel: UILabel = {
+    var cityLabel: UILabel = {
         let label = UILabel()
+        label.font = .boldSystemFont(ofSize: 20)
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    private var descriptionLabel: UILabel = {
+    var iconWeatherImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
+    var descriptionLabel: UILabel = {
         let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    private var temperatureLabel: UILabel = {
+    var temperatureLabel: UILabel = {
         let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    private var temperatureMinLabel: UILabel = {
+    var temperatureMinLabel: UILabel = {
         let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    private var temperatureMaxLabel: UILabel = {
+    var temperatureMaxLabel: UILabel = {
         let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupViews()
+        setupConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -46,6 +60,7 @@ class WeatherTableViewCell: UITableViewCell {
     
     private func setupViews() {
         contentView.addSubview(cityLabel)
+        contentView.addSubview(iconWeatherImage)
         contentView.addSubview(descriptionLabel)
         contentView.addSubview(temperatureLabel)
         contentView.addSubview(temperatureMinLabel)
@@ -58,25 +73,31 @@ class WeatherTableViewCell: UITableViewCell {
             cityLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             cityLabel.bottomAnchor.constraint(equalTo: descriptionLabel.topAnchor),
             
-            descriptionLabel.topAnchor.constraint(equalTo: cityLabel.bottomAnchor),
-            descriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            descriptionLabel.trailingAnchor.constraint(equalTo: temperatureLabel.trailingAnchor),
-            descriptionLabel.bottomAnchor.constraint(equalTo: temperatureMinLabel.topAnchor),
+            iconWeatherImage.topAnchor.constraint(equalTo: cityLabel.bottomAnchor),
+            iconWeatherImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            iconWeatherImage.bottomAnchor.constraint(equalTo: temperatureMinLabel.topAnchor),
+            iconWeatherImage.heightAnchor.constraint(equalToConstant: 50),
+            iconWeatherImage.widthAnchor.constraint(equalToConstant: 50),
             
+            descriptionLabel.topAnchor.constraint(equalTo: cityLabel.bottomAnchor),
+            descriptionLabel.leadingAnchor.constraint(equalTo: iconWeatherImage.trailingAnchor, constant: 10),
+            descriptionLabel.trailingAnchor.constraint(equalTo: temperatureLabel.leadingAnchor),
+            descriptionLabel.bottomAnchor.constraint(equalTo: temperatureMinLabel.topAnchor),
+
             temperatureLabel.topAnchor.constraint(equalTo: cityLabel.bottomAnchor),
             temperatureLabel.leadingAnchor.constraint(equalTo: descriptionLabel.trailingAnchor),
             temperatureLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             temperatureLabel.bottomAnchor.constraint(equalTo: temperatureMaxLabel.topAnchor),
-            
+
             temperatureMinLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor),
             temperatureMinLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             temperatureMinLabel.trailingAnchor.constraint(equalTo: temperatureMaxLabel.leadingAnchor),
-            temperatureMinLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 10),
-            
+            temperatureMinLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+
             temperatureMaxLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor),
-            temperatureMaxLabel.leadingAnchor.constraint(equalTo: temperatureMinLabel.trailingAnchor),
+            temperatureMaxLabel.leadingAnchor.constraint(equalTo: temperatureMinLabel.trailingAnchor, constant: 10),
             temperatureMaxLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            temperatureMaxLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 10),
+            temperatureMaxLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
         ])
     }
 }

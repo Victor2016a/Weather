@@ -8,27 +8,18 @@
 import Foundation
 
 struct WeatherData: Decodable {
-    let weathers: [Weather]
-    private enum CodingKeys: String, CodingKey {
-        case weathers = "weather"
-    }
+    let weather: [Weather]
+    let main: WeatherMain
+    let name: String?
 }
 
 struct Weather: Decodable {
-    let descriptionTemp: String?
-    private enum CodingKeys: String, CodingKey {
-        case descriptionTemp = "description"
-    }
+    let description: String?
+    let icon: String?
 }
 
 struct WeatherMain: Decodable {
-    let temperature: String?
-    let temperature_min: String?
-    let temperature_max: String?
-    
-    private enum CodingKeys: String, CodingKey {
-        case temperature = "temp"
-        case temperature_min = "temp_min"
-        case temperature_max = "temp_max"
-    }
+    let temp: Double?
+    let temp_min: Double?
+    let temp_max: Double?
 }
