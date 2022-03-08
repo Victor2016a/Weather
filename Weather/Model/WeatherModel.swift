@@ -9,7 +9,7 @@ import Foundation
 
 struct WeatherData: Decodable {
     let weather: [Weather]
-    let main: WeatherMain
+    var main: WeatherMain
     let name: String?
 }
 
@@ -19,7 +19,7 @@ struct Weather: Decodable {
 }
 
 struct WeatherMain: Decodable {
-    let temp: Double?
-    let temp_min: Double?
-    let temp_max: Double?
+    var temp: Double?
+    var temp_min: Double?
+    var temp_max: Double?
 }

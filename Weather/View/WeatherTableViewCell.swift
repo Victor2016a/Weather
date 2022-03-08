@@ -26,24 +26,28 @@ class WeatherTableViewCell: UITableViewCell {
     
     var descriptionLabel: UILabel = {
         let label = UILabel()
+        label.font = .systemFont(ofSize: 25)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     var temperatureLabel: UILabel = {
         let label = UILabel()
+        label.font = .boldSystemFont(ofSize: 40)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     var temperatureMinLabel: UILabel = {
         let label = UILabel()
+        label.font = .systemFont(ofSize: 20)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     var temperatureMaxLabel: UILabel = {
         let label = UILabel()
+        label.font = .systemFont(ofSize: 20)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -76,27 +80,25 @@ class WeatherTableViewCell: UITableViewCell {
             iconWeatherImage.topAnchor.constraint(equalTo: cityLabel.bottomAnchor),
             iconWeatherImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             iconWeatherImage.bottomAnchor.constraint(equalTo: temperatureMinLabel.topAnchor),
-            iconWeatherImage.heightAnchor.constraint(equalToConstant: 50),
-            iconWeatherImage.widthAnchor.constraint(equalToConstant: 50),
+            iconWeatherImage.heightAnchor.constraint(equalToConstant: 70),
+            iconWeatherImage.widthAnchor.constraint(equalToConstant: 70),
             
             descriptionLabel.topAnchor.constraint(equalTo: cityLabel.bottomAnchor),
-            descriptionLabel.leadingAnchor.constraint(equalTo: iconWeatherImage.trailingAnchor, constant: 10),
-            descriptionLabel.trailingAnchor.constraint(equalTo: temperatureLabel.leadingAnchor),
+            descriptionLabel.leadingAnchor.constraint(equalTo: iconWeatherImage.trailingAnchor),
             descriptionLabel.bottomAnchor.constraint(equalTo: temperatureMinLabel.topAnchor),
 
             temperatureLabel.topAnchor.constraint(equalTo: cityLabel.bottomAnchor),
-            temperatureLabel.leadingAnchor.constraint(equalTo: descriptionLabel.trailingAnchor),
-            temperatureLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            temperatureLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             temperatureLabel.bottomAnchor.constraint(equalTo: temperatureMaxLabel.topAnchor),
 
             temperatureMinLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor),
             temperatureMinLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            temperatureMinLabel.trailingAnchor.constraint(equalTo: temperatureMaxLabel.leadingAnchor),
+            temperatureMinLabel.widthAnchor.constraint(equalToConstant: 100),
             temperatureMinLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
 
             temperatureMaxLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor),
-            temperatureMaxLabel.leadingAnchor.constraint(equalTo: temperatureMinLabel.trailingAnchor, constant: 10),
-            temperatureMaxLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            temperatureMaxLabel.leadingAnchor.constraint(equalTo: temperatureMinLabel.trailingAnchor),
+            temperatureMaxLabel.widthAnchor.constraint(equalToConstant: 100),
             temperatureMaxLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
         ])
     }
