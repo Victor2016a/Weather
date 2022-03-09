@@ -20,8 +20,8 @@ class WeatherListViewController: UIViewController {
     }
     
     override func loadView() {
-        let barButtonTemp = UIBarButtonItem(title: "Cº", style: .plain, target: self, action: #selector(tapNavTemp))
-        let batButtonMap = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(tapNavMap))
+        let barButtonTemp = UIBarButtonItem(title: "Fº", style: .plain, target: self, action: #selector(tapNavTemp))
+        let batButtonMap = UIBarButtonItem(image: UIImage(named: "map"), style: .plain, target: self, action: #selector(tapNavMap))
         navigationItem.rightBarButtonItems = [batButtonMap, barButtonTemp]
         view = baseView
     }
@@ -30,7 +30,7 @@ class WeatherListViewController: UIViewController {
         if let cell = baseView.tableView.cellForRow(at: index) as? WeatherTableViewCell {
             let weathers = viewModel.cellForRow(at: index)
             
-            if navigationItem.rightBarButtonItems?[1].title == "Cº" {
+            if navigationItem.rightBarButtonItems?[1].title == "Fº" {
             guard let temp = weathers.main.temp else { return }
             cell.temperatureLabel.text = String(format: "%.f", convertTemperature(temp)) + "º"
             
@@ -39,18 +39,18 @@ class WeatherListViewController: UIViewController {
             
             guard let tempMax = weathers.main.temp_max else { return }
             cell.temperatureMaxLabel.text = "Max: " + String(format: "%.f", convertTemperature(tempMax)) + "º"
-            navigationItem.rightBarButtonItems?[1].title = "Fº"
+            navigationItem.rightBarButtonItems?[1].title = "Cº"
             } else {
             cell.temperatureLabel.text =  String(format: "%.f", weathers.main.temp ?? "") + "º"
             cell.temperatureMinLabel.text = "Min: " + String(format: "%.f", weathers.main.temp_min ?? "") + "º"
             cell.temperatureMaxLabel.text = "Max: " + String(format: "%.f", weathers.main.temp_max ?? "") + "º"
-            navigationItem.rightBarButtonItems?[1].title = "Cº"
+            navigationItem.rightBarButtonItems?[1].title = "Fº"
             }
         }
     }
     
     @objc func tapNavMap() {
-        navigationController?.pushViewController(WeatherMapViewController(), animated: false)
+        navigationController?.pushViewController(WeatherMapViewController(weathersList: viewModel.cellForRow(at: index)), animated: false)
     }
     
     private func loadWeathersData() {
