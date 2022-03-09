@@ -28,11 +28,9 @@ class WeatherListViewController: UIViewController {
     
     @objc func tapNavTemp() {
         if let cell = baseView.tableView.cellForRow(at: index) as? WeatherTableViewCell {
-            
             let weathers = viewModel.cellForRow(at: index)
             
             if navigationItem.rightBarButtonItems?[1].title == "Cº" {
-            
             guard let temp = weathers.main.temp else { return }
             cell.temperatureLabel.text = String(format: "%.f", convertTemperature(temp)) + "º"
             
@@ -41,13 +39,12 @@ class WeatherListViewController: UIViewController {
             
             guard let tempMax = weathers.main.temp_max else { return }
             cell.temperatureMaxLabel.text = "Max: " + String(format: "%.f", convertTemperature(tempMax)) + "º"
-                
             navigationItem.rightBarButtonItems?[1].title = "Fº"
             } else {
-                cell.temperatureLabel.text =  String(format: "%.f", weathers.main.temp ?? "") + "º"
-                cell.temperatureMinLabel.text = "Min: " + String(format: "%.f", weathers.main.temp_min ?? "") + "º"
-                cell.temperatureMaxLabel.text = "Max: " + String(format: "%.f", weathers.main.temp_max ?? "") + "º"
-                navigationItem.rightBarButtonItems?[1].title = "Cº"
+            cell.temperatureLabel.text =  String(format: "%.f", weathers.main.temp ?? "") + "º"
+            cell.temperatureMinLabel.text = "Min: " + String(format: "%.f", weathers.main.temp_min ?? "") + "º"
+            cell.temperatureMaxLabel.text = "Max: " + String(format: "%.f", weathers.main.temp_max ?? "") + "º"
+            navigationItem.rightBarButtonItems?[1].title = "Cº"
             }
         }
     }

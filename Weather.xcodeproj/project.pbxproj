@@ -51,6 +51,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		130A15B027D7BCF200C352C8 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				134B34F227D2405D00B29CE6 /* WeatherListViewController.swift */,
+				13C2E73B27D63E1F00601311 /* WeatherMapViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
 		134B34E227D2405D00B29CE6 = {
 			isa = PBXGroup;
 			children = (
@@ -71,15 +80,14 @@
 			isa = PBXGroup;
 			children = (
 				1397698D27D793D400CC403B /* ConvertTemp.swift */,
+				13C2E73D27D655F500601311 /* LocationManager.swift */,
 				134B350C27D2435B00B29CE6 /* Networking */,
 				134B350D27D2436C00B29CE6 /* Model */,
 				134B350F27D2437100B29CE6 /* ViewModel */,
 				134B350E27D2436E00B29CE6 /* View */,
+				130A15B027D7BCF200C352C8 /* Controller */,
 				134B34EE27D2405D00B29CE6 /* AppDelegate.swift */,
 				134B34F027D2405D00B29CE6 /* SceneDelegate.swift */,
-				134B34F227D2405D00B29CE6 /* WeatherListViewController.swift */,
-				13C2E73B27D63E1F00601311 /* WeatherMapViewController.swift */,
-				13C2E73D27D655F500601311 /* LocationManager.swift */,
 				134B34F727D2406000B29CE6 /* Assets.xcassets */,
 				134B34F927D2406000B29CE6 /* LaunchScreen.storyboard */,
 				134B34FC27D2406000B29CE6 /* Info.plist */,
