@@ -31,20 +31,21 @@ class WeatherListViewController: UIViewController {
             let weathers = viewModel.cellForRow(at: index)
             
             if navigationItem.rightBarButtonItems?[1].title == "Fº" {
-            guard let temp = weathers.main.temp else { return }
-            cell.temperatureLabel.text = String(format: "%.f", convertTemperature(temp)) + "º"
+               guard let temp = weathers.main.temp else { return }
+               cell.temperatureLabel.text = String(format: "%.f", convertTemperature(temp)) + "º"
             
-            guard let tempMin = weathers.main.temp_min else { return }
-            cell.temperatureMinLabel.text = "Min: " + String(format: "%.f", convertTemperature(tempMin)) + "º"
+               guard let tempMin = weathers.main.temp_min else { return }
+               cell.temperatureMinLabel.text = "Min: " + String(format: "%.f", convertTemperature(tempMin)) + "º"
             
-            guard let tempMax = weathers.main.temp_max else { return }
-            cell.temperatureMaxLabel.text = "Max: " + String(format: "%.f", convertTemperature(tempMax)) + "º"
-            navigationItem.rightBarButtonItems?[1].title = "Cº"
+               guard let tempMax = weathers.main.temp_max else { return }
+               cell.temperatureMaxLabel.text = "Max: " + String(format: "%.f", convertTemperature(tempMax)) + "º"
+                
+               navigationItem.rightBarButtonItems?[1].title = "Cº"
             } else {
-            cell.temperatureLabel.text =  String(format: "%.f", weathers.main.temp ?? "") + "º"
-            cell.temperatureMinLabel.text = "Min: " + String(format: "%.f", weathers.main.temp_min ?? "") + "º"
-            cell.temperatureMaxLabel.text = "Max: " + String(format: "%.f", weathers.main.temp_max ?? "") + "º"
-            navigationItem.rightBarButtonItems?[1].title = "Fº"
+               cell.temperatureLabel.text =  String(format: "%.f", weathers.main.temp ?? "") + "º"
+               cell.temperatureMinLabel.text = "Min: " + String(format: "%.f", weathers.main.temp_min ?? "") + "º"
+               cell.temperatureMaxLabel.text = "Max: " + String(format: "%.f", weathers.main.temp_max ?? "") + "º"
+               navigationItem.rightBarButtonItems?[1].title = "Fº"
             }
         }
     }
@@ -86,7 +87,6 @@ extension WeatherListViewController: UITableViewDataSource {
         guard let url = URL(string: "https://openweathermap.org/img/wn/\(icon)@2x.png") else { return cell }
 
         URLSession.shared.dataTask(with: url) { (data, _ , error) in
-
         DispatchQueue.main.async {
 
             if let error = error {
