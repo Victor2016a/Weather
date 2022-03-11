@@ -7,8 +7,6 @@
 
 import Foundation
 
-func convertTemperature(_ tempCelsius: Double) -> Double {
-    var tempFahrenheit: Double
-    tempFahrenheit = tempCelsius * 1.8 + 32
-    return tempFahrenheit
+func convertToFahrenheit(_ tempCelsius: Double) -> Double {
+    tempCelsius * 1.8 + 32
 }

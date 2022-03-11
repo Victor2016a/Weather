@@ -32,13 +32,13 @@ class WeatherListViewController: UIViewController {
             
             if navigationItem.rightBarButtonItems?[1].title == "Fº" {
                guard let temp = weathers.main.temp else { return }
-               cell.temperatureLabel.text = String(format: "%.f", convertTemperature(temp)) + "º"
+               cell.temperatureLabel.text = String(format: "%.f", convertToFahrenheit(temp)) + "º"
             
                guard let tempMin = weathers.main.temp_min else { return }
-               cell.temperatureMinLabel.text = "Min: " + String(format: "%.f", convertTemperature(tempMin)) + "º"
+               cell.temperatureMinLabel.text = "Min: " + String(format: "%.f", convertToFahrenheit(tempMin)) + "º"
             
                guard let tempMax = weathers.main.temp_max else { return }
-               cell.temperatureMaxLabel.text = "Max: " + String(format: "%.f", convertTemperature(tempMax)) + "º"
+               cell.temperatureMaxLabel.text = "Max: " + String(format: "%.f", convertToFahrenheit(tempMax)) + "º"
                 
                navigationItem.rightBarButtonItems?[1].title = "Cº"
             } else {
@@ -85,7 +85,7 @@ extension WeatherListViewController: UITableViewDataSource {
         
         guard let icon = weathers.weather[indexPath.row].icon else { return cell }
         guard let url = URL(string: "https://openweathermap.org/img/wn/\(icon)@2x.png") else { return cell }
-
+        
         URLSession.shared.dataTask(with: url) { (data, _ , error) in
         DispatchQueue.main.async {
 
