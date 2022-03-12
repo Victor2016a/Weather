@@ -7,10 +7,20 @@
 
 import Foundation
 
+struct WeatherList: Decodable {
+    var list: [WeatherData]
+}
+
 struct WeatherData: Decodable {
     let weather: [Weather]
     var main: WeatherMain
-    let name: String?
+    var name: String?
+    let coord: WeatherCoordinate
+}
+
+struct WeatherCoordinate: Decodable {
+    let lat: Double?
+    let lon: Double?
 }
 
 struct Weather: Decodable {

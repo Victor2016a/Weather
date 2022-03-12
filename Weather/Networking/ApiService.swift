@@ -11,11 +11,12 @@ class ApiService {
     
     private var dataTask: URLSessionDataTask?
     
-    func getWeatherListData(complention: @escaping (Result<WeatherData, Error>) -> Void){
+    func getWeatherListData(complention: @escaping (Result<WeatherList, Error>) -> Void){
         
         LocationManager.shared.getUserLocation { [weak self] location in
             
-            let weatherUrl = "https://api.openweathermap.org/data/2.5/weather?lat=\(location.coordinate.latitude)&lon=\(location.coordinate.longitude)&units=metric&appid=b8d3341bed3153c9bdbaa47fe12ccf12&lang=pt"
+            let weatherUrl = "https://api.openweathermap.org/data/2.5/find?lat=\(location.coordinate.latitude)&lon=\(location.coordinate.longitude)&appid=b8d3341bed3153c9bdbaa47fe12ccf12&lang=pt&cnt=50&units=metric"
+            
             guard let url = URL(string: weatherUrl) else { return }
             
             self?.dataTask = URLSession.shared.dataTask(with: url) { (data, response, error) in
@@ -36,7 +37,7 @@ class ApiService {
                         return
                     }
                     do {
-                        let jsonData = try JSONDecoder().decode(WeatherData.self, from: data)
+                        let jsonData = try JSONDecoder().decode(WeatherList.self, from: data)
                         complention(.success(jsonData))
                     }
                     catch let error {

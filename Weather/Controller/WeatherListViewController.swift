@@ -11,12 +11,11 @@ class WeatherListViewController: UIViewController {
     
     var baseView = WeatherListView()
     private var viewModel = WeatherViewModel()
-    private var index = IndexPath()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureTableView()
         loadWeathersData()
+        configureTableView()
     }
     
     override func loadView() {
@@ -27,31 +26,29 @@ class WeatherListViewController: UIViewController {
     }
     
     @objc func tapNavTemp() {
-        if let cell = baseView.tableView.cellForRow(at: index) as? WeatherTableViewCell {
-            let weathers = viewModel.cellForRow(at: index)
-            
-            if navigationItem.rightBarButtonItems?[1].title == "Fº" {
-               guard let temp = weathers.main.temp else { return }
-               cell.temperatureLabel.text = String(format: "%.f", convertToFahrenheit(temp)) + "º"
-            
-               guard let tempMin = weathers.main.temp_min else { return }
-               cell.temperatureMinLabel.text = "Min: " + String(format: "%.f", convertToFahrenheit(tempMin)) + "º"
-            
-               guard let tempMax = weathers.main.temp_max else { return }
-               cell.temperatureMaxLabel.text = "Max: " + String(format: "%.f", convertToFahrenheit(tempMax)) + "º"
-                
-               navigationItem.rightBarButtonItems?[1].title = "Cº"
-            } else {
-               cell.temperatureLabel.text =  String(format: "%.f", weathers.main.temp ?? "") + "º"
-               cell.temperatureMinLabel.text = "Min: " + String(format: "%.f", weathers.main.temp_min ?? "") + "º"
-               cell.temperatureMaxLabel.text = "Max: " + String(format: "%.f", weathers.main.temp_max ?? "") + "º"
-               navigationItem.rightBarButtonItems?[1].title = "Fº"
+        if navigationItem.rightBarButtonItems?[1].title == "Fº" {
+            for i in 0 ..< viewModel.weathers.count {
+                viewModel.weathers[i].main.temp = convertToFahrenheit(viewModel.weathers[i].main.temp ?? 0)
+                viewModel.weathers[i].main.temp_min = convertToFahrenheit(viewModel.weathers[i].main.temp_min ?? 0)
+                viewModel.weathers[i].main.temp_max = convertToFahrenheit(viewModel.weathers[i].main.temp_max ?? 0)
             }
+            navigationItem.rightBarButtonItems?[1].title = "Cº"
+            baseView.tableView.reloadData()
+        } else {
+            for i in 0 ..< viewModel.weathers.count {
+                viewModel.weathers[i].main.temp = convertToCelsius(viewModel.weathers[i].main.temp ?? 0)
+                viewModel.weathers[i].main.temp_min = convertToCelsius(viewModel.weathers[i].main.temp_min ?? 0)
+                viewModel.weathers[i].main.temp_max = convertToCelsius(viewModel.weathers[i].main.temp_max ?? 0)
+            }
+            navigationItem.rightBarButtonItems?[1].title = "Fº"
+            baseView.tableView.reloadData()
         }
     }
+        
     
     @objc func tapNavMap() {
-        navigationController?.pushViewController(WeatherMapViewController(weathersList: viewModel.cellForRow(at: index)), animated: false)
+        guard let titleBarButton = navigationItem.rightBarButtonItems?[1].title else { return }
+        navigationController?.pushViewController(WeatherMapViewController(weathersList: viewModel.weathers, titleBarButton: titleBarButton), animated: false)
     }
     
     private func loadWeathersData() {
@@ -78,14 +75,14 @@ extension WeatherListViewController: UITableViewDataSource {
         let weathers = viewModel.cellForRow(at: indexPath)
         
         cell.cityLabel.text = weathers.name
-        cell.descriptionLabel.text = weathers.weather[indexPath.row].description
+        cell.descriptionLabel.text = weathers.weather[0].description
         cell.temperatureLabel.text =  String(format: "%.f", weathers.main.temp ?? "") + "º"
         cell.temperatureMinLabel.text = "Min: " + String(format: "%.f", weathers.main.temp_min ?? "") + "º"
         cell.temperatureMaxLabel.text = "Max: " + String(format: "%.f", weathers.main.temp_max ?? "") + "º"
-        
-        guard let icon = weathers.weather[indexPath.row].icon else { return cell }
+
+        guard let icon = weathers.weather[0].icon else { return cell }
         guard let url = URL(string: "https://openweathermap.org/img/wn/\(icon)@2x.png") else { return cell }
-        
+
         URLSession.shared.dataTask(with: url) { (data, _ , error) in
         DispatchQueue.main.async {
 
@@ -105,8 +102,6 @@ extension WeatherListViewController: UITableViewDataSource {
         }
 
         }.resume()
-        
-        index = indexPath
         
         return cell
     }

@@ -8,14 +8,16 @@
 import UIKit
 import MapKit
 
-class WeatherMapViewController: UIViewController, MKMapViewDelegate, MKLocalSearchCompleterDelegate {
+class WeatherMapViewController: UIViewController, MKMapViewDelegate {
     
-    private let weathers: WeatherData
-    private let pin = MKPointAnnotation()
+    private var weathers: [WeatherData]
+    private var titleBarButton: String
+    private var pinsMap = [MKPointAnnotation]()
     private let baseView = WeatherMapView()
     
-    init(weathersList: WeatherData) {
+    init(weathersList: [WeatherData], titleBarButton: String) {
         self.weathers = weathersList
+        self.titleBarButton = titleBarButton
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -24,7 +26,7 @@ class WeatherMapViewController: UIViewController, MKMapViewDelegate, MKLocalSear
     }
     
     override func loadView() {
-        let barButtonTemp = UIBarButtonItem(title: "Fº", style: .plain, target: self, action: #selector(tapNavTemp))
+        let barButtonTemp = UIBarButtonItem(title: titleBarButton, style: .plain, target: self, action: #selector(tapNavTemp))
         let batButtonMap = UIBarButtonItem(image: UIImage(named: "list"), style: .plain, target: self, action: #selector(tapNavMap))
         navigationItem.rightBarButtonItems = [batButtonMap, barButtonTemp]
         navigationItem.hidesBackButton = true
@@ -33,18 +35,28 @@ class WeatherMapViewController: UIViewController, MKMapViewDelegate, MKLocalSear
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        LocationManager.shared.getUserLocation { [weak self] location in
-            DispatchQueue.main.async {
-                guard let map = self else { return }
-                self?.pin.coordinate = location.coordinate
-                self?.pin.title = String(format: "%.f", self?.weathers.main.temp ?? "") + "º"
-                map.baseView.mapView.setRegion(MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpan(latitudeDelta: 3, longitudeDelta: 3)), animated: true)
-                guard let pin = self?.pin else { return }
-                map.baseView.mapView.addAnnotation(pin)
-            }
-        }
         self.baseView.mapView.delegate = self
+        setupRegion()
+        setupPins()
+    }
+    
+    private func setupRegion() {
+        guard let latitude = weathers[0].coord.lat else { return }
+        guard let longitude = weathers[0].coord.lon else { return }
+        
+        baseView.mapView.setRegion(MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: latitude , longitude: longitude), span: MKCoordinateSpan(latitudeDelta: 0.3, longitudeDelta: 0.3)), animated: true)
+    }
+    
+    private func setupPins() {
+        for i in 0 ..< weathers.count {
+            let pin = MKPointAnnotation()
+            guard let latitude = weathers[i].coord.lat else { return }
+            guard let longitude = weathers[i].coord.lon else { return }
+            pin.coordinate = CLLocationCoordinate2D(latitude: latitude , longitude: longitude)
+            pin.title = String(format: "%.f", weathers[i].main.temp ?? "") + "º"
+            pinsMap.append(pin)
+        }
+        baseView.mapView.addAnnotations(pinsMap)
     }
     
     @objc func tapNavMap() {
@@ -52,21 +64,26 @@ class WeatherMapViewController: UIViewController, MKMapViewDelegate, MKLocalSear
     }
     
     @objc func tapNavTemp() {
+        
         if navigationItem.rightBarButtonItems?[1].title == "Fº" {
-            guard let temp = weathers.main.temp else { return }
-            pin.title = String(format: "%.f", convertToFahrenheit(temp)) + "º"
+            for i in 0 ..< weathers.count {
+                guard let tempPin = pinsMap[i].title else { return }
+                pinsMap[i].title = String(format: "%.f", convertToFahrenheit((tempPin as NSString).doubleValue)) + "º"
+            }
             navigationItem.rightBarButtonItems?[1].title = "Cº"
         } else {
-            pin.title = String(format: "%.f", weathers.main.temp ?? "") + "º"
+            for i in 0 ..< weathers.count {
+                guard let tempPin = pinsMap[i].title else { return }
+                pinsMap[i].title = String(format: "%.f", convertToCelsius((tempPin as NSString).doubleValue)) + "º"
+            }
             navigationItem.rightBarButtonItems?[1].title = "Fº"
         }
     }
-    
+        
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "annotationMap")
         annotationView.image = UIImage(named: "pin")
         annotationView.canShowCallout = true
         return annotationView
     }
-    
 }
