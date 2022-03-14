@@ -20,8 +20,10 @@ class WeatherListViewController: UIViewController {
     
     override func loadView() {
         let barButtonTemp = UIBarButtonItem(title: "Fº", style: .plain, target: self, action: #selector(tapNavTemp))
-        let batButtonMap = UIBarButtonItem(image: UIImage(named: "map"), style: .plain, target: self, action: #selector(tapNavMap))
-        navigationItem.rightBarButtonItems = [batButtonMap, barButtonTemp]
+        let barButtonMap = UIBarButtonItem(image: UIImage(named: "map"), style: .plain, target: self, action: #selector(tapNavMap))
+        barButtonMap.isEnabled = false
+        barButtonTemp.isEnabled = false
+        navigationItem.rightBarButtonItems = [barButtonMap, barButtonTemp]
         view = baseView
     }
     
@@ -54,6 +56,9 @@ class WeatherListViewController: UIViewController {
     private func loadWeathersData() {
         self.viewModel.fetchWeathersData { [weak self] in
             self?.baseView.tableView.reloadData()
+            self?.baseView.spinner.stopAnimating()
+            self?.navigationItem.rightBarButtonItems?[1].isEnabled = true
+            self?.navigationItem.rightBarButtonItems?[0].isEnabled = true
         }
     }
     
