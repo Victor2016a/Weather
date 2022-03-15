@@ -31,4 +31,20 @@ class WeatherViewModel {
     func cellForRow(at: IndexPath) -> WeatherData {
         weathers[at.row]
     }
+    
+    func convertAllTempToCelsius() {
+        for i in 0 ..< weathers.count {
+            weathers[i].main.temp = convertToCelsius(weathers[i].main.temp ?? 0)
+            weathers[i].main.temp_min = convertToCelsius(weathers[i].main.temp_min ?? 0)
+            weathers[i].main.temp_max = convertToCelsius(weathers[i].main.temp_max ?? 0)
+        }
+    }
+    
+    func convertAllTempToFahrenheit() {
+        for i in 0 ..< weathers.count {
+            weathers[i].main.temp = convertToFahrenheit(weathers[i].main.temp ?? 0)
+            weathers[i].main.temp_min = convertToFahrenheit(weathers[i].main.temp_min ?? 0)
+            weathers[i].main.temp_max = convertToFahrenheit(weathers[i].main.temp_max ?? 0)
+        }
+    }
 }

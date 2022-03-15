@@ -29,19 +29,11 @@ class WeatherListViewController: UIViewController {
     
     @objc func tapNavTemp() {
         if navigationItem.rightBarButtonItems?[1].title == "Fº" {
-            for i in 0 ..< viewModel.weathers.count {
-                viewModel.weathers[i].main.temp = convertToFahrenheit(viewModel.weathers[i].main.temp ?? 0)
-                viewModel.weathers[i].main.temp_min = convertToFahrenheit(viewModel.weathers[i].main.temp_min ?? 0)
-                viewModel.weathers[i].main.temp_max = convertToFahrenheit(viewModel.weathers[i].main.temp_max ?? 0)
-            }
+            viewModel.convertAllTempToFahrenheit()
             navigationItem.rightBarButtonItems?[1].title = "Cº"
             baseView.tableView.reloadData()
         } else {
-            for i in 0 ..< viewModel.weathers.count {
-                viewModel.weathers[i].main.temp = convertToCelsius(viewModel.weathers[i].main.temp ?? 0)
-                viewModel.weathers[i].main.temp_min = convertToCelsius(viewModel.weathers[i].main.temp_min ?? 0)
-                viewModel.weathers[i].main.temp_max = convertToCelsius(viewModel.weathers[i].main.temp_max ?? 0)
-            }
+            viewModel.convertAllTempToCelsius()
             navigationItem.rightBarButtonItems?[1].title = "Fº"
             baseView.tableView.reloadData()
         }
