@@ -79,26 +79,10 @@ extension WeatherListViewController: UITableViewDataSource {
 
         guard let icon = weathers.weather[0].icon else { return cell }
         guard let url = URL(string: "https://openweathermap.org/img/wn/\(icon)@2x.png") else { return cell }
-
-        URLSession.shared.dataTask(with: url) { (data, _ , error) in
-        DispatchQueue.main.async {
-
-            if let error = error {
-                print("DataTask error: \(error.localizedDescription) ")
-                return
-            }
-
-            guard let data = data else {
-                print("Empty Data")
-                return
-            }
-
-            if let image = UIImage(data: data){
-                cell.iconWeatherImage.image = image
-            }
+        
+        downloadImageFrom(url: url) { (image, error) in
+            cell.iconWeatherImage.image = image
         }
-
-        }.resume()
         
         return cell
     }
