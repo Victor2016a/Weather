@@ -62,6 +62,10 @@ class WeatherTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        iconWeatherImage.image = nil
+    }
+    
     private func setupViews() {
         contentView.addSubview(cityLabel)
         contentView.addSubview(iconWeatherImage)
