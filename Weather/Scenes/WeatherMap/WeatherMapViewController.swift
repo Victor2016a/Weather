@@ -8,7 +8,8 @@
 import UIKit
 import MapKit
 
-class WeatherMapViewController: UIViewController, MKMapViewDelegate {
+class WeatherMapViewController: UIViewController, MKMapViewDelegate, Coordinating {
+    var coordinator: Coordinator?
     
     private var weathers: [WeatherData]
     private var titleBarButton: String

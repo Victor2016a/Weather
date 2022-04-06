@@ -7,7 +7,7 @@
 
 import Foundation
 
-class WeatherViewModel {
+class WeatherListViewModel {
     
     private var apiService = ApiService()
     var weathers = [WeatherData]()
@@ -28,8 +28,16 @@ class WeatherViewModel {
         weathers.count
     }
     
-    func cellForRow(at: IndexPath) -> WeatherData {
-        weathers[at.row]
+    func cellForRow(at indexPath: IndexPath) -> WeatherListViewModelCell {
+      let weather = weathers[indexPath.row]
+      return .init(
+        cityName: weather.name ?? "",
+        description: weather.weather.first?.description ?? "",
+        icon: weather.weather.first?.icon ?? "",
+        temperature: weather.main.temp ?? 0.0,
+        temperatureMin: weather.main.temp_min ?? 0.0,
+        temperatureMax: weather.main.temp_max ?? 0.0
+      )
     }
     
     func convertAllTempToCelsius() {
