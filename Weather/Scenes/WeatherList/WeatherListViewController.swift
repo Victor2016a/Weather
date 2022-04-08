@@ -7,6 +7,11 @@
 
 import UIKit
 
+enum NavButton: Int {
+  case listMapButton = 0
+  case tempButton = 1
+}
+
 class WeatherListViewController: UIViewController, Coordinating {
   var coordinator: Coordinator?
 
@@ -25,13 +30,13 @@ class WeatherListViewController: UIViewController, Coordinating {
   }
   
   @objc func tapNavTemp() {
-    if navigationItem.rightBarButtonItems?[1].title == "Fº" {
+    if navigationItem.rightBarButtonItems?[NavButton.tempButton.rawValue].title == "Fº" {
       viewModel.convertAllTempToFahrenheit()
-      navigationItem.rightBarButtonItems?[1].title = "Cº"
+      navigationItem.rightBarButtonItems?[NavButton.tempButton.rawValue].title = "Cº"
       baseView.tableView.reloadData()
     } else {
       viewModel.convertAllTempToCelsius()
-      navigationItem.rightBarButtonItems?[1].title = "Fº"
+      navigationItem.rightBarButtonItems?[NavButton.tempButton.rawValue].title = "Fº"
       baseView.tableView.reloadData()
     }
   }
@@ -44,7 +49,7 @@ class WeatherListViewController: UIViewController, Coordinating {
   }
   
   @objc func tapNavMap() {
-    guard let titleBarButton = navigationItem.rightBarButtonItems?[1].title else { return }
+    guard let titleBarButton = navigationItem.rightBarButtonItems?[NavButton.tempButton.rawValue].title else { return }
     coordinator?.eventOccurred(with: .listButtonNav(viewModel: viewModel.weathers,
                                                     titleBarButton: titleBarButton))
   }
@@ -53,8 +58,8 @@ class WeatherListViewController: UIViewController, Coordinating {
     self.viewModel.fetchWeathersData { [weak self] in
       self?.baseView.tableView.reloadData()
       self?.baseView.spinner.stopAnimating()
-      self?.navigationItem.rightBarButtonItems?[1].isEnabled = true
-      self?.navigationItem.rightBarButtonItems?[0].isEnabled = true
+      self?.navigationItem.rightBarButtonItems?[NavButton.tempButton.rawValue].isEnabled = true
+      self?.navigationItem.rightBarButtonItems?[NavButton.listMapButton.rawValue].isEnabled = true
     }
   }
   
@@ -74,7 +79,6 @@ extension WeatherListViewController: UITableViewDataSource {
     guard let cell = tableView.dequeueReusableCell(withIdentifier: WeatherTableViewCell.identifier, for: indexPath) as? WeatherTableViewCell else { return .init() }
     
     let viewModel = viewModel.cellForRow(at: indexPath)
-    
     cell.configure(viewModel: viewModel)
     
     guard let url = URL(string: "https://openweathermap.org/img/wn/\(viewModel.icon)@2x.png") else { return cell }

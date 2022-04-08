@@ -21,6 +21,7 @@ class WeatherListViewModelCell {
        temperature: Double,
        temperatureMin: Double,
        temperatureMax: Double) {
+    
     self.cityName = cityName
     self.description = description
     self.icon = icon
