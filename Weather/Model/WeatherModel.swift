@@ -8,28 +8,28 @@
 import Foundation
 
 struct WeatherList: Decodable {
-    var list: [WeatherData]
+  var list: [WeatherData]
 }
 
 struct WeatherData: Decodable {
-    let weather: [Weather]
-    var main: WeatherMain
-    var name: String?
-    let coord: WeatherCoordinate
+  let weather: [Weather]
+  var main: WeatherMain
+  var name: String?
+  let coord: WeatherCoordinate
 }
 
 struct WeatherCoordinate: Decodable {
-    let lat: Double?
-    let lon: Double?
+  let lat: Double?
+  let lon: Double?
 }
 
 struct Weather: Decodable {
-    let description: String?
-    let icon: String?
+  let description: String?
+  let icon: String?
 }
 
 struct WeatherMain: Decodable {
-    var temp: Double?
-    var temp_min: Double?
-    var temp_max: Double?
+  var temp: Double?
+  var temp_min: Double?
+  var temp_max: Double?
 }

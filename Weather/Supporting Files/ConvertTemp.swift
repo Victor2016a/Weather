@@ -8,9 +8,9 @@
 import Foundation
 
 func convertToFahrenheit(_ tempCelsius: Double) -> Double {
-    tempCelsius * 1.8 + 32
+  tempCelsius * 1.8 + 32
 }
 
 func convertToCelsius(_ tempFahrenheit: Double) -> Double {
-    (tempFahrenheit - 32)/1.8
+  (tempFahrenheit - 32)/1.8
 }
